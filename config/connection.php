@@ -5,6 +5,12 @@ $dbname = "blog_post";
 $dbuser = "root";
 $dbpass = "";
 
-$koneksi = new PDO("mysql:host=" . $dbhost . "; dbname=".$dbname."",$dbuser,$dbpass);
+
+try {
+    $koneksi = new PDO("mysql:host=" . $dbhost . "; dbname=".$dbname."",$dbuser,$dbpass);
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+    die;
+}
 
 ?>
