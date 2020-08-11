@@ -1,42 +1,14 @@
 <?php
 
-require_once "../../config/connection.php";
-require_once "../../libraries/base_url.php";
-
-session_start();
-
-if(isset($_POST['login'])){
-
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-
-    $sql = "SELECT * FROM users WHERE username=:username AND password=:password";
-    $stmt = $koneksi->prepare($sql);
-    
-    // bind parameter ke query
-    $stmt->bindParam(":username", $username);
-    $stmt->bindParam(":password", $password);
-
-    $stmt->execute();
-
-    $user = $stmt->fetch();
-
-    // jika user terdaftar
-    if($stmt->rowCount() > 0){
-        $_SESSION['username']= $user['username'];
-		header('location: '. BASE_URL_ADMIN);
-	} else {
-        $error = "Login tidak ditemukan!";
-        echo $error;
-	}
-}
+require_once "config/connection.php";
+include "libraries/base_url.php";
 
 ?>
 
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Login</title>
+    <title>Blog Post</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -61,27 +33,13 @@ if(isset($_POST['login'])){
                     <li class="nav-item">
                         <a class="nav-link" href="<?= BASE_URL ?>pages/users/register.php">Register</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= BASE_URL ?>pages/users/login.php">Login</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div class="container">
-        <div class="col-md-6">
-            <h2>Login</h2>
-            <form action="" method="POST">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
-                <input type="submit" class="btn btn-primary" name="login" value="Login">
-            </form>
-        </div>
-    </div>
       
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
