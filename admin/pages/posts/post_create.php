@@ -97,7 +97,7 @@ include "../../includes/sidebar.php";
                 </div>
                 <div class="form-group">
                     <label for="category">Category</label>
-                    <select name="category_id" id="category">
+                    <select class="form-control" name="category_id" id="category">
                       <?php while($row = $stmt_categories->fetch()){ ?>
                         <option value="<?= $row['category_id'] ?>"><?= $row['category'] ?></option>
                       <?php } ?>

@@ -12,6 +12,7 @@ $stmt_data->bindParam(":post_id", $post_id);
 $stmt_data->execute();
 
 $data =$stmt_data->fetch();
+$category_id = $data['category_id'];
 
 
 if(isset($_POST['submit'])){
@@ -45,8 +46,6 @@ if(isset($_POST['submit'])){
 
   $stmt_categories = $koneksi->prepare($sql_categories);
   $stmt_categories->execute();
-
-  $categories = $stmt_categories->fetch();
 
   if($saved){
       header('Location: '. BASE_URL_ADMIN . 'pages/posts/?page=1');
@@ -105,10 +104,16 @@ include "../../includes/sidebar.php";
                 </div>
                 <div class="form-group">
                     <label for="category">Category</label>
-                    <select name="category_id" id="catgeory">
-                      <?php while($row = $categories){ ?>
-                        <option value="<?= $row['category_id'] ?>" <?php if($row['category_id']==$data['category_id']){echo "selected";}?>><?= $row['category'] ?></option>
-                      <?php } ?>
+                    <select name="category_id" id="catgeory" class="form-control">
+                      <?php 
+                        while($row = $stmt_categories->fetch()):
+                          
+                      ?>
+                          <option value="<?= $row['category_id'] ?>"><?= $row['category'] ?></option>
+                      <?php
+                          // endif;
+                        endwhile;
+                      ?>
                     </select>
                 </div>
                 <a href="#" class="btn btn-secondary">Cancel</a>

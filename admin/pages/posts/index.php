@@ -10,11 +10,13 @@ $page = isset($_GET['page'])? (int)$_GET["page"]:1;
 $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
 
 
-$sql = "SELECT * FROM users INNER JOIN users USING (user_id) INNER JOIN categories USING (category_id) LIMIT $mulai, $halaman";
+$sql = "SELECT * FROM posts INNER JOIN users USING (user_id) INNER JOIN categories USING (category_id) LIMIT $mulai, $halaman";
 $stmt = $koneksi->prepare($sql);
 
 
+
 $stmt->execute();
+var_dump($stmt);
 
 // menghitung semua data
 
@@ -84,7 +86,7 @@ include "../../includes/sidebar.php";
                           Title
                       </th>
                       <th style="width: 30%">
-                          Write by
+                          Writen by
                       </th>
                       <th>
                           Category
