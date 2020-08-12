@@ -5,13 +5,13 @@ require_once "../../../libraries/base_url.php";
 require_once "../../../libraries/login_required.php";
 
 
-$user_id = $_GET['id'];
+$post_id = $_GET['id'];
 
-$sql="DELETE FROM users WHERE user_id = :user_id";
+$sql="DELETE FROM posts WHERE post_id = :post_id";
 $stmt = $koneksi->prepare($sql);
-$stmt->bindParam(":user_id", $user_id);
+$stmt->bindParam(":post_id", $post_id);
 $stmt->execute();
 
-header('location:'.BASE_URL_ADMIN.'pages/users/?page=1');
+header('location:'.BASE_URL_ADMIN.'pages/posts/?page=1');
 
 ?>

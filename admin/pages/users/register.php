@@ -1,7 +1,7 @@
 <?php
 
-require_once "../../config/connection.php";
-require_once "../../libraries/base_url.php";
+require_once "../../../config/connection.php";
+require_once "../../../libraries/base_url.php";
 
 if(isset($_POST['register'])){
 
@@ -62,7 +62,7 @@ if(isset($_POST['register'])){
                         <a class="nav-link" href="<?= BASE_URL ?>">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>pages/users/login.php">Login</a>
+                        <a class="nav-link" href="<?= BASE_URL_ADMIN ?>pages/users/login.php">Login</a>
                     </li>
                 </ul>
             </div>

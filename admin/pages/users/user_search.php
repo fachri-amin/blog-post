@@ -15,7 +15,7 @@ if(isset($_GET['search'])){
   
   $persen = '%';
   
-  $sql = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search LIMIT $mulai, $halaman";
+  $sql = "SELECT * FROM users WHERE username=:search";
   $stmt = $koneksi->prepare($sql);
 
   $stmt->bindParam(':search', $search);  
@@ -24,14 +24,14 @@ if(isset($_GET['search'])){
   
   // menghitung semua data
   
-  $sql2 = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search";
+  // $sql2 = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search";
   
-  $stmt2 = $koneksi->prepare($sql2);
-  $stmt2->bindParam(':search', $persen.$search.$persen);  
-  $stmt2->execute();
-  $total = $stmt2->rowCount();
+  // $stmt2 = $koneksi->prepare($sql2);
+  // $stmt2->bindParam(':search', $persen.$search.$persen);  
+  // $stmt2->execute();
+  // $total = $stmt2->rowCount();
   
-  $total_page = ceil($total/$halaman);
+  // $total_page = ceil($total/$halaman);
   
   $count = 1;
 }
@@ -88,7 +88,6 @@ include "../../includes/sidebar.php";
           </div>
         </div>
       </div><!-- /.container-fluid -->
-      <!-- SEARCH FORM -->
     </section>
 
     <!-- Main content -->
@@ -149,7 +148,7 @@ include "../../includes/sidebar.php";
                         <?= $row['name'] ?>
                       </td>
                       <td class="project-actions text-left">
-                          <a class="btn btn-info btn-sm" href="<?= BASE_URL_ADMIN.'pages/users/user_edit.php?id='.$row['user_id'] ?>">
+                          <a class="btn btn-info btn-sm" href="#">
                               <i class="fas fa-pencil-alt">
                               </i>
                               Edit
@@ -167,18 +166,7 @@ include "../../includes/sidebar.php";
         </div>
         <!-- /.card-body -->
     </div>
-    <nav aria-label="Page navigation example">
-        <div class="float-right mr-5">
-          <a href="" class="btn btn-primary">Add new</a>
-        </div>
-        <ul class="pagination">
-            <?php for($i=1; $i <= $total_page; $i++){ ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/users/?page=<?= $i ?>"><?= $i ?></a>
-            </li>
-            <?php } ?>
-        </ul>
-    </nav>
+    
       <!-- /.card -->
 
     </section>

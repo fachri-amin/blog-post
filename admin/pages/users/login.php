@@ -1,7 +1,7 @@
 <?php
 
-require_once "../../config/connection.php";
-require_once "../../libraries/base_url.php";
+require_once "../../../config/connection.php";
+require_once "../../../libraries/base_url.php";
 
 session_start();
 
@@ -59,7 +59,7 @@ if(isset($_POST['login'])){
                         <a class="nav-link" href="<?= BASE_URL ?>">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>pages/users/register.php">Register</a>
+                        <a class="nav-link" href="<?= BASE_URL_ADMIN ?>pages/users/register.php">Register</a>
                     </li>
                 </ul>
             </div>

@@ -5,61 +5,28 @@ include "../../../libraries/base_url.php";
 require_once "../../../libraries/login_required.php";
 
 
-if(isset($_GET['search'])){
+$halaman = 2;
+$page = isset($_GET['page'])? (int)$_GET["page"]:1;
+$mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
 
-  $search = $_GET['search'];
 
-  $halaman = 2;
-  $page = isset($_GET['page'])? (int)$_GET["page"]:1;
-  $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
-  
-  $persen = '%';
-  
-  $sql = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search LIMIT $mulai, $halaman";
-  $stmt = $koneksi->prepare($sql);
+$sql = "SELECT * FROM users INNER JOIN users USING (user_id) INNER JOIN categories USING (category_id) LIMIT $mulai, $halaman";
+$stmt = $koneksi->prepare($sql);
 
-  $stmt->bindParam(':search', $search);  
-  
-  $stmt->execute();
-  
-  // menghitung semua data
-  
-  $sql2 = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search";
-  
-  $stmt2 = $koneksi->prepare($sql2);
-  $stmt2->bindParam(':search', $persen.$search.$persen);  
-  $stmt2->execute();
-  $total = $stmt2->rowCount();
-  
-  $total_page = ceil($total/$halaman);
-  
-  $count = 1;
-}
-else{
-  $halaman = 2;
-  $page = isset($_GET['page'])? (int)$_GET["page"]:1;
-  $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
-  
-  
-  $sql = "SELECT * FROM users LIMIT $mulai, $halaman";
-  $stmt = $koneksi->prepare($sql);
-  
-  
-  $stmt->execute();
-  
-  // menghitung semua data
-  
-  $sql2 = "SELECT * FROM users";
-  
-  $stmt2 = $koneksi->prepare($sql2);
-  $stmt2->execute();
-  $total = $stmt2->rowCount();
-  
-  $total_page = ceil($total/$halaman);
-  
-  $count = 1;
-}
 
+$stmt->execute();
+
+// menghitung semua data
+
+$sql2 = "SELECT * FROM posts";
+
+$stmt2 = $koneksi->prepare($sql2);
+$stmt2->execute();
+$total = $stmt2->rowCount();
+
+$total_page = ceil($total/$halaman);
+
+$count = 1;
 
 
 // HTML Start here
@@ -78,7 +45,7 @@ include "../../includes/sidebar.php";
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Users Management</h1>
+            <h1>Post Management</h1>
           </div>
           <div class="col-sm-6">
             <form class="form-inline float-right" action="<?= BASE_URL_ADMIN ?>pages/users/user_search.php" method="get">
@@ -114,13 +81,13 @@ include "../../includes/sidebar.php";
                           #
                       </th>
                       <th style="width: 20%">
-                          Username
+                          Title
                       </th>
                       <th style="width: 30%">
-                          E-mail
+                          Write by
                       </th>
                       <th>
-                          Name
+                          Category
                       </th>
                       <th style="width: 20%">
                         Action
@@ -135,7 +102,7 @@ include "../../includes/sidebar.php";
                       </td>
                       <td>
                           <a>
-                              <?= $row['username'] ?>
+                              <?= $row['title'] ?>
                           </a>
                           <br/>
                           <small>
@@ -143,18 +110,18 @@ include "../../includes/sidebar.php";
                           </small>
                       </td>
                       <td>
-                          <?= $row['email'] ?>
+                          <?= $row['username'] ?>
                       </td>
                       <td>
-                        <?= $row['name'] ?>
+                        <?= $row['category'] ?>
                       </td>
                       <td class="project-actions text-left">
-                          <a class="btn btn-info btn-sm" href="<?= BASE_URL_ADMIN.'pages/users/user_edit.php?id='.$row['user_id'] ?>">
+                          <a class="btn btn-info btn-sm" href="<?= BASE_URL_ADMIN.'pages/posts/post_edit.php?id='.$row['post_id'] ?>">
                               <i class="fas fa-pencil-alt">
                               </i>
                               Edit
                           </a>
-                          <a onClick="javascript: return confirm('Please confirm deletion');" class="btn btn-danger btn-sm" href="<?= BASE_URL_ADMIN ?>pages/users/user_delete.php?id=<?= $row['user_id'] ?>">
+                          <a onClick="javascript: return confirm('Please confirm deletion');" class="btn btn-danger btn-sm" href="<?= BASE_URL_ADMIN ?>pages/users/post_delete.php?id=<?= $row['user_id'] ?>">
                               <i class="fas fa-trash">
                               </i>
                               Delete
@@ -166,19 +133,19 @@ include "../../includes/sidebar.php";
           </table>
         </div>
         <!-- /.card-body -->
-    </div>
-    <nav aria-label="Page navigation example">
-        <div class="float-right mr-5">
-          <a href="" class="btn btn-primary">Add new</a>
-        </div>
-        <ul class="pagination">
-            <?php for($i=1; $i <= $total_page; $i++){ ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/users/?page=<?= $i ?>"><?= $i ?></a>
-            </li>
-            <?php } ?>
-        </ul>
-    </nav>
+      </div>
+      <nav aria-label="Page navigation example">
+          <div class="float-right mr-5">
+            <a href="<?= BASE_URL_ADMIN.'pages/posts/post_create.php' ?>"" class="btn btn-primary">Add new</a>
+          </div>
+          <ul class="pagination">
+              <?php for($i=1; $i <= $total_page; $i++){ ?>
+              <li class="page-item">
+                  <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $i ?>"><?= $i ?></a>
+              </li>
+              <?php } ?>
+          </ul>
+      </nav>
       <!-- /.card -->
 
     </section>
