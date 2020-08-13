@@ -7,15 +7,16 @@ require_once "../../../libraries/login_required.php";
 
 if(isset($_GET['search'])){
 
-  $search = $_GET['search'];
+  $search_exact = $_GET['search'];
+
+  $search = '%'.$search_exact.'%';
 
   $halaman = 2;
   $page = isset($_GET['page'])? (int)$_GET["page"]:1;
   $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
   
-  $persen = '%';
   
-  $sql = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search LIMIT $mulai, $halaman";
+  $sql = "SELECT * FROM users WHERE name LIKE :search OR username LIKE :search OR email LIKE :search LIMIT $mulai, $halaman";
   $stmt = $koneksi->prepare($sql);
 
   $stmt->bindParam(':search', $search);  
@@ -24,10 +25,10 @@ if(isset($_GET['search'])){
   
   // menghitung semua data
   
-  $sql2 = "SELECT * FROM users WHERE name=:search OR username=:search OR email=:search";
+  $sql2 = "SELECT * FROM users WHERE name LIKE :search OR username LIKE :search OR email LIKE :search";
   
   $stmt2 = $koneksi->prepare($sql2);
-  $stmt2->bindParam(':search', $persen.$search.$persen);  
+  $stmt2->bindParam(':search', $search);  
   $stmt2->execute();
   $total = $stmt2->rowCount();
   
@@ -81,7 +82,7 @@ include "../../includes/sidebar.php";
             <h1>Users Management</h1>
           </div>
           <div class="col-sm-6">
-            <form class="form-inline float-right" action="<?= BASE_URL_ADMIN ?>pages/users/user_search.php" method="get">
+            <form class="form-inline float-right" action="" method="get">
               <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search by username" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
@@ -173,9 +174,15 @@ include "../../includes/sidebar.php";
         </div>
         <ul class="pagination">
             <?php for($i=1; $i <= $total_page; $i++){ ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/users/?page=<?= $i ?>"><?= $i ?></a>
-            </li>
+              <?php if(isset($_GET['search'])): ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/users/?page=<?= $i.'&search='.$_GET['search'] ?>"><?= $i ?></a>
+                </li>
+              <?php else: ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/users/?page=<?= $i ?>"><?= $i ?></a>
+                </li>
+              <?php endif; ?>
             <?php } ?>
         </ul>
     </nav>

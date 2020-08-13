@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="<?= BASE_URL_ADMIN; ?>/assets/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- node modules -->
+  <link rel="stylesheet" href="<?= BASE_URL ?>node_modules/summernote/dist/summernote-bs4.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 

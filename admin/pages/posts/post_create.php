@@ -75,7 +75,7 @@ include "../../includes/sidebar.php";
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">General</h3>
@@ -87,17 +87,17 @@ include "../../includes/sidebar.php";
             </div>
             <div class="card-body">
               <form action="" method="POST">
-                <div class="form-group">
+                <div class="form-group col-sm-4">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title">
                 </div>
                 <div class="form-group">
-                    <label for="body">Body</label>
-                    <textarea name="body" id="body" class="form-control" cols="30" rows="10"></textarea>
+                    <label for="summernote">Body</label>
+                    <textarea id="summernote" name="body"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="category">Category</label>
-                    <select class="form-control" name="category_id" id="category">
+                    <select class="form-control col-sm-4" name="category_id" id="category">
                       <?php while($row = $stmt_categories->fetch()){ ?>
                         <option value="<?= $row['category_id'] ?>"><?= $row['category'] ?></option>
                       <?php } ?>

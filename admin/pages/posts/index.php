@@ -123,7 +123,7 @@ include "../../includes/sidebar.php";
                               </i>
                               Edit
                           </a>
-                          <a onClick="javascript: return confirm('Please confirm deletion');" class="btn btn-danger btn-sm" href="<?= BASE_URL_ADMIN ?>pages/users/post_delete.php?id=<?= $row['user_id'] ?>">
+                          <a onClick="javascript: return confirm('Please confirm deletion');" class="btn btn-danger btn-sm" href="<?= BASE_URL_ADMIN ?>pages/posts/post_delete.php?id=<?= $row['post_id'] ?>">
                               <i class="fas fa-trash">
                               </i>
                               Delete

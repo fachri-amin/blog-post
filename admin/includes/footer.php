@@ -33,5 +33,24 @@
 
 <!-- PAGE SCRIPTS -->
 <script src="<?= BASE_URL_ADMIN; ?>/assets/dist/js/pages/dashboard2.js"></script>
+<script src="<?= BASE_URL ?>node_modules/summernote/dist/summernote-bs4.min.js"></script>
+<script>
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        placeholder: 'Create your post',
+        tabsize: 2,
+        height: 500,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
+    });
+  </script>
 </body>
 </html>

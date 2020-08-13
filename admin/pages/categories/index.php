@@ -123,7 +123,7 @@ include "../../includes/sidebar.php";
         <!-- /.card-body -->
     </div>
     <nav aria-label="Page navigation example">
-        <div class="float-right">
+        <div class="float-right mr-5">
           <a href="<?= BASE_URL_ADMIN.'pages/categories/category_create.php' ?>" class="btn btn-primary">Add new</a>
         </div>
         <ul class="pagination">
