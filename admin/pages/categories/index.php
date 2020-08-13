@@ -5,28 +5,61 @@ include "../../../libraries/base_url.php";
 require_once "../../../libraries/login_required.php";
 
 
-$halaman = 2;
-$page = isset($_GET['page'])? (int)$_GET["page"]:1;
-$mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
+if(isset($_GET['search'])){
 
+  $search_exact = $_GET['search'];
 
-$sql = "SELECT * FROM categories LIMIT $mulai, $halaman";
-$stmt = $koneksi->prepare($sql);
+  $search = '%'.$search_exact.'%';
 
+  $halaman = 2;
+  $page = isset($_GET['page'])? (int)$_GET["page"]:1;
+  $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
+  
+  
+  $sql = "SELECT * FROM categories WHERE category LIKE :search LIMIT $mulai, $halaman";
+  $stmt = $koneksi->prepare($sql);
 
-$stmt->execute();
-
-// menghitung semua data
-
-$sql2 = "SELECT * FROM categories";
-
-$stmt2 = $koneksi->prepare($sql2);
-$stmt2->execute();
-$total = $stmt2->rowCount();
-
-$total_page = ceil($total/$halaman);
-
-$count = 1;
+  $stmt->bindParam(':search', $search);  
+  
+  $stmt->execute();
+  
+  // menghitung semua data
+  
+  $sql2 = "SELECT * FROM categories WHERE category LIKE :search";
+  
+  $stmt2 = $koneksi->prepare($sql2);
+  $stmt2->bindParam(':search', $search);  
+  $stmt2->execute();
+  $total = $stmt2->rowCount();
+  
+  $total_page = ceil($total/$halaman);
+  
+  $count = 1;
+}
+else{
+  $halaman = 2;
+  $page = isset($_GET['page'])? (int)$_GET["page"]:1;
+  $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
+  
+  
+  $sql = "SELECT * FROM categories LIMIT $mulai, $halaman";
+  $stmt = $koneksi->prepare($sql);
+  
+  
+  $stmt->execute();
+  
+  // menghitung semua data
+  
+  $sql2 = "SELECT * FROM categories";
+  
+  $stmt2 = $koneksi->prepare($sql2);
+  $stmt2->execute();
+  $total = $stmt2->rowCount();
+  
+  $total_page = ceil($total/$halaman);
+  
+  $count = 1;
+}
 
 
 // HTML Start here
@@ -48,8 +81,8 @@ include "../../includes/sidebar.php";
             <h1>Users Management</h1>
           </div>
           <div class="col-sm-6">
-            <form class="form-inline float-right" action="<?= BASE_URL_ADMIN ?>pages/users/user_search.php" method="get">
-              <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search by username" aria-label="Search">
+            <form class="form-inline float-right" action="" method="get">
+              <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search here" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
           </div>
@@ -128,9 +161,15 @@ include "../../includes/sidebar.php";
         </div>
         <ul class="pagination">
             <?php for($i=1; $i <= $total_page; $i++){ ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/categories/?page=<?= $i ?>"><?= $i ?></a>
-            </li>
+              <?php if(isset($_GET['search'])): ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/categories/?page=<?= $i.'&search='.$_GET['search'] ?>"><?= $i ?></a>
+                </li>
+              <?php else: ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/categories/?page=<?= $i ?>"><?= $i ?></a>
+                </li>
+              <?php endif; ?>
             <?php } ?>
         </ul>
     </nav>

@@ -33,7 +33,7 @@ if(isset($_POST['submit'])){
 
   // filter data yang diinputkan
   $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-  $body = filter_input(INPUT_POST, 'body', FILTER_SANITIZE_STRING);
+  $body = $_POST['body'];
   $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_STRING);
 
   // menyiapkan query
