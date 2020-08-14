@@ -19,6 +19,22 @@ $stmt_user->execute();
 
 $total_user = $stmt_user->rowCount();
 
+// get total post
+$sql_post = "SELECT * FROM posts";
+
+$stmt_post = $koneksi->prepare($sql_post);
+$stmt_post->execute();
+
+$total_post = $stmt_post->rowCount();
+
+// get total categories
+$sql_category = "SELECT * FROM category";
+
+$stmt_category = $koneksi->prepare($sql_category);
+$stmt_category->execute();
+
+$total_category = $stmt_category->rowCount();
+
 // HTML start here
 
 include "includes/header.php";
@@ -64,14 +80,14 @@ include "includes/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?= $total_post ?></h3>
   
                 <p>Post Created</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= BASE_URL_ADMIN ?>pages/posts/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -79,14 +95,14 @@ include "includes/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>0</h3>
+                <h3><?= $total_post ?></h3>
   
                 <p>Post Categories</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= BASE_URL_ADMIN ?>pages/categories/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
