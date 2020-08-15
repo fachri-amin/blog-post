@@ -1,6 +1,10 @@
 <?php
 
 function upload(){
+    
+    // print_r($_FILES['gambar']);
+    // die;
+
     $fileName = $_FILES['gambar']['name'];
     $fileSize = $_FILES['gambar']['size'];
     $error = $_FILES['gambar']['error'];
@@ -24,6 +28,7 @@ function upload(){
         return false;
     }
 
+    // max 1mb
     if($fileSize > 1000000){
         echo "<script>
                 alert('Ukuran gambar terlalu besar!');
@@ -35,7 +40,7 @@ function upload(){
     $fileName .= '.';
     $fileName .= $fileExt;
 
-    move_uploaded_file($tmpName, 'img/', $fileName);
+    move_uploaded_file($tmpName, '../img/'. $fileName);
 
     return $fileName;
 }

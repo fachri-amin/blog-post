@@ -96,7 +96,7 @@ include "../../includes/sidebar.php";
               </div>
             </div>
             <div class="card-body">
-              <form action="" method="POST">
+              <form action="" method="POST" enctype="multipart/form-data">
                 <div class="form-group col-sm-4">
                     <label for="title">Title</label>
                     <input value="<?= $data['title'] ?>" type="text" class="form-control" id="category" name="title">

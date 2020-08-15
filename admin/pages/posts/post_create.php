@@ -3,7 +3,9 @@
 require_once "../../../config/connection.php";
 include "../../../libraries/base_url.php";
 require_once "../../../libraries/login_required.php";
+require_once "../../../libraries/upload.php";
 
+// get categories
 $sql_categories = "SELECT * FROM categories";
 
 $stmt_categories = $koneksi->prepare($sql_categories);
@@ -24,28 +26,34 @@ if(isset($_POST['submit'])){
   $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
   $body = $_POST['body'];
   $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_STRING);
+  $gambar = upload();
 
-  // menyiapkan query
-  $sql = "INSERT INTO posts (category_id, title, body, user_id) VALUES (:category_id, :title, :body, :user_id)";
-  $stmt = $koneksi->prepare($sql);
-
-  // bind parameter ke query
-  $stmt->bindParam(":category_id", $category_id);
-  $stmt->bindParam(":title", $title);
-  $stmt->bindParam(":body", $body);
-  $stmt->bindParam(":user_id", $user['user_id']);
-
-
-  // eksekusi query untuk menyimpan ke database
-  $saved = $stmt->execute();
-
-
-  if($saved){
-      header('Location: '. BASE_URL_ADMIN . 'pages/posts/?page=1');
+  if(!$gambar){
+    // menyiapkan query
+    $sql = "INSERT INTO posts (category_id, image, title, body, user_id) VALUES (:category_id, :image, :title, :body, :user_id)";
+    $stmt = $koneksi->prepare($sql);
+  
+    // bind parameter ke query
+    $stmt->bindParam(":category_id", $category_id);
+    $stmt->bindParam(":title", $title);
+    $stmt->bindParam(":body", $body);
+    $stmt->bindParam(":user_id", $user['user_id']);
+    $stmt->bindParam(":image", $gambar);
+  
+  
+    // eksekusi query untuk menyimpan ke database
+    $saved = $stmt->execute();
+  
+  
+    if($saved){
+        header('Location: '. BASE_URL_ADMIN . 'pages/posts/?page=1');
+    }
+    else{
+        echo "Edit Failed";
+    }
   }
-  else{
-      echo "Edit Failed";
-  }
+
+
 
 }
 
@@ -86,10 +94,14 @@ include "../../includes/sidebar.php";
               </div>
             </div>
             <div class="card-body">
-              <form action="" method="POST">
+              <form action="action.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group col-sm-4">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title">
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="gambar">Image</label>
+                    <input type="file" class="form-control" id="gambar" name="gambar">
                 </div>
                 <div class="form-group">
                     <label for="summernote">Body</label>
