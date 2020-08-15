@@ -22,17 +22,13 @@ if(isset($_POST['submit'])){
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
     $body = $_POST['body'];
     $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_STRING);
+    $gambar = upload();
     
-    // $gambar = upload();
-    echo $_FILES['gambar']['error'];
-    move_uploaded_file($_FILES['gambar']['tmp_name'], 'upload/'.$_FILES['gambar']['name']);
-    die;
-
   
     if($gambar){
 
       echo "gambar berhasil di upload";
-      die;
+    //   die;
       
       
       // menyiapkan query

@@ -28,7 +28,7 @@ $stmt_post->execute();
 $total_post = $stmt_post->rowCount();
 
 // get total categories
-$sql_category = "SELECT * FROM category";
+$sql_category = "SELECT * FROM categories";
 
 $stmt_category = $koneksi->prepare($sql_category);
 $stmt_category->execute();
@@ -95,9 +95,9 @@ include "includes/sidebar.php";
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3><?= $total_post ?></h3>
+                <h3><?= $total_category ?></h3>
   
-                <p>Post Categories</p>
+                <p>Categories Created</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -105,6 +105,10 @@ include "includes/sidebar.php";
               <a href="<?= BASE_URL_ADMIN ?>pages/categories/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
+          <?php chdir('../');?>
+
+          <h1><?= getcwd();?></h1>
           <!-- ./col -->
       </section>
     </div>

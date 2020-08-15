@@ -1,5 +1,7 @@
 <?php
 
+require_once "base_url.php";
+
 function upload(){
     
     // print_r($_FILES['gambar']);
@@ -35,12 +37,15 @@ function upload(){
             </script>";
         return false;
     }
+    //change dir to /img
+    chdir('../../../img');
+    $dirName = getcwd();
 
     $fileName = uniqid();
     $fileName .= '.';
     $fileName .= $fileExt;
 
-    move_uploaded_file($tmpName, '../img/'. $fileName);
+    move_uploaded_file($tmpName, $dirName.'/'. $fileName);
 
     return $fileName;
 }
