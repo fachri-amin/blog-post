@@ -40,7 +40,7 @@
               <a class="nav-link" href="<?= BASE_URL_ADMIN ?>">Admin</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<?= BASE_URL_ADMIN ?>pages/users/logout.php">Logout</a>
+              <a onClick="javascript: return confirm('Please confirm to logout');" class="nav-link" href="<?= BASE_URL_ADMIN ?>pages/users/logout.php">Logout</a>
             </li>
           <?php else: ?>
             <li class="nav-item">

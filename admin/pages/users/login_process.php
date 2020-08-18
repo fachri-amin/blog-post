@@ -29,6 +29,13 @@ if(isset($_POST['login'])){
             // login sukses, alihkan ke halaman timeline
             header("Location:".BASE_URL);
         }
+        else{
+            header('Location:'.BASE_URL_ADMIN.'login.php');
+        }
+    }
+    else{
+        $login_page = BASE_URL_ADMIN.'login.php';
+        header('Location:'.BASE_URL_ADMIN.'login.php');
     }
 }
 
