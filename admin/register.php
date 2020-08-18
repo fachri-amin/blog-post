@@ -1,39 +1,9 @@
 <?php
 
-require_once "../../../config/connection.php";
-require_once "../../../libraries/base_url.php";
-
-if(isset($_POST['register'])){
-
-    // filter data yang diinputkan
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST,"password", FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+require_once "../config/connection.php";
+require_once "../libraries/base_url.php";
 
 
-    // menyiapkan query
-    $sql = "INSERT INTO users (name, username, email, password, active) 
-            VALUES (:name, :username, :email, :password, 1)";
-    $stmt = $koneksi->prepare($sql);
-
-    // bind parameter ke query
-    $stmt->bindParam(":name", $name);
-    $stmt->bindParam(":username", $username);
-    $stmt->bindParam(":password", $password);
-    $stmt->bindParam(":email", $email);
-    
-    // eksekusi query untuk menyimpan ke database
-    $saved = $stmt->execute();
-
-    if($saved){
-        header('Location: '. BASE_URL . 'pages/users/login.php');
-    }
-    else{
-        echo "Register Failed";
-    }
-
-}
 
 ?>
 
@@ -72,7 +42,7 @@ if(isset($_POST['register'])){
     <div class="container">
         <div class="col-md-6">
             <h2>New User Registration</h2>
-            <form action="" method="POST">
+            <form action="<?php BASE_URL_ADMIN ?>pages/users/action.php" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username">

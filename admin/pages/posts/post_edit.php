@@ -3,6 +3,7 @@
 require_once "../../../config/connection.php";
 include "../../../libraries/base_url.php";
 require_once "../../../libraries/login_required.php";
+require_once "../../../libraries/upload.php";
 
 $post_id = $_GET['id'];
 $sql_data = "SELECT * FROM posts WHERE post_id=:post_id";
@@ -19,45 +20,6 @@ $sql_categories = "SELECT * FROM categories";
 $stmt_categories = $koneksi->prepare($sql_categories);
 $stmt_categories->execute();
 
-if(isset($_POST['submit'])){
-
-  $sql_user = "SELECT * FROM users WHERE username=:username";
-  
-  $stmt_user = $koneksi->prepare($sql_user);
-  $stmt_user->bindParam(':username', $_SESSION['username']);
-  $stmt_user->execute();
-
-  $user = $stmt_user->fetch();
-
-  $user_id = $user['user_id'];
-
-  // filter data yang diinputkan
-  $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-  $body = $_POST['body'];
-  $category_id = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_STRING);
-
-  // menyiapkan query
-  $sql = "UPDATE posts SET category_id=:category_id, title=:title, body=:body WHERE post_id=:post_id";
-  $stmt = $koneksi->prepare($sql);
-
-  // bind parameter ke query
-  $stmt->bindParam(":category_id", $category_id);
-  $stmt->bindParam(":title", $title);
-  $stmt->bindParam(":body", $body);
-  $stmt->bindParam(":post_id", $post_id);
-  
-  // eksekusi query untuk menyimpan ke database
-  $saved = $stmt->execute();
-
-
-  if($saved){
-      header('Location: '. BASE_URL_ADMIN . 'pages/posts/?page=1');
-  }
-  else{
-      echo "Edit Failed";
-  }
-
-}
 
 // HTML Start here
 
@@ -96,10 +58,16 @@ include "../../includes/sidebar.php";
               </div>
             </div>
             <div class="card-body">
-              <form action="" method="POST" enctype="multipart/form-data">
+              <form action="<?= BASE_URL_ADMIN ?>pages/posts/action.php" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="old_image" value="<?= $data['image'] ?>">
                 <div class="form-group col-sm-4">
                     <label for="title">Title</label>
                     <input value="<?= $data['title'] ?>" type="text" class="form-control" id="category" name="title">
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="gambar">Image</label>
+                    <img src="<?= BASE_URL.'/img/'.$data['image'] ?>" height="50" alt="Tidak ada Gambar">
+                    <input type="file" class="form-control" id="gambar" name="gambar">
                 </div>
                 <div class="form-group">
                     <label for="summernote">Body</label>
@@ -118,7 +86,7 @@ include "../../includes/sidebar.php";
                     </select>
                 </div>
                 <a href="#" class="btn btn-secondary">Cancel</a>
-                <input name="submit" type="submit" value="Edit Post" class="btn btn-success">
+                <input name="edit" type="submit" value="Edit Post" class="btn btn-success">
               </form>
             </div>
             <!-- /.card-body -->

@@ -2,14 +2,7 @@
 
 require_once "../config/connection.php";
 include "../libraries/base_url.php";
-
-session_start();
-if(!isset($_SESSION['username'])){
-  header('location:'. BASE_URL_ADMIN. 'pages/users/login.php');
-}
-else{
-  $username = $_SESSION['username'];
-}
+require_once "../libraries/login_required.php";
 
 // get total user
 $sql_user = "SELECT * FROM users";
@@ -105,10 +98,6 @@ include "includes/sidebar.php";
               <a href="<?= BASE_URL_ADMIN ?>pages/categories/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
-          <?php chdir('../');?>
-
-          <h1><?= getcwd();?></h1>
           <!-- ./col -->
       </section>
     </div>

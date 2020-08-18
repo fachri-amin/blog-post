@@ -13,31 +13,6 @@ $stmt_data->execute();
 
 $data = $stmt_data->fetch();
 
-if(isset($_POST['edit'])){
-
-    // filter data yang diinputkan
-    $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
-
-    // menyiapkan query
-    $sql = "UPDATE categories SET category=:category WHERE category_id=:category_id";
-    $stmt = $koneksi->prepare($sql);
-
-    // bind parameter ke query
-    $stmt->bindParam(":category", $category);
-    $stmt->bindParam(":category_id", $category_id);
-    
-    // eksekusi query untuk menyimpan ke database
-    $saved = $stmt->execute();
-
-    if($saved){
-        header('Location: '. BASE_URL_ADMIN . 'pages/categories/?page=1');
-    }
-    else{
-        echo "Edit Failed";
-    }
-
-}
-
 // HTML Start here
 
 include "../../includes/header.php";
@@ -81,7 +56,7 @@ include "../../includes/sidebar.php";
               </div>
             </div>
             <div class="card-body">
-              <form action="" method="POST">
+              <form action="<?= BASE_URL_ADMIN ?>pages/categories/action.php" method="POST">
                 <div class="form-group">
                     <label for="category">Category</label>
                     <input value="<?= $data['category'] ?>" type="text" class="form-control" id="category" name="category">

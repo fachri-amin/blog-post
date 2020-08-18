@@ -1,35 +1,8 @@
 <?php
 
-require_once "../../../config/connection.php";
-require_once "../../../libraries/base_url.php";
+require_once "../config/connection.php";
+require_once "../libraries/base_url.php";
 
-session_start();
-
-if(isset($_POST['login'])){
-
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-
-    $sql = "SELECT * FROM users WHERE username=:username AND password=:password";
-    $stmt = $koneksi->prepare($sql);
-    
-    // bind parameter ke query
-    $stmt->bindParam(":username", $username);
-    $stmt->bindParam(":password", $password);
-
-    $stmt->execute();
-
-    $user = $stmt->fetch();
-
-    // jika user terdaftar
-    if($stmt->rowCount() > 0){
-        $_SESSION['username']= $user['username'];
-		header('location: '. BASE_URL_ADMIN);
-	} else {
-        $error = "Login tidak ditemukan!";
-        echo $error;
-	}
-}
 
 ?>
 
@@ -59,7 +32,7 @@ if(isset($_POST['login'])){
                         <a class="nav-link" href="<?= BASE_URL ?>">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL_ADMIN ?>pages/users/register.php">Register</a>
+                        <a class="nav-link" href="<?= BASE_URL_ADMIN ?>register.php">Register</a>
                     </li>
                 </ul>
             </div>
@@ -69,7 +42,7 @@ if(isset($_POST['login'])){
     <div class="container">
         <div class="col-md-6">
             <h2>Login</h2>
-            <form action="" method="POST">
+            <form action="<?= BASE_URL_ADMIN ?>pages/users/login_process.php" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username">

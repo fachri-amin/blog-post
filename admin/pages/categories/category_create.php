@@ -5,30 +5,6 @@ include "../../../libraries/base_url.php";
 require_once "../../../libraries/login_required.php";
 
 
-if(isset($_POST['submit'])){
-
-    // filter data yang diinputkan
-    $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
-
-    // menyiapkan query
-    $sql = "INSERT INTO categories (category) VALUES (:category)";
-    $stmt = $koneksi->prepare($sql);
-
-    // bind parameter ke query
-    $stmt->bindParam(":category", $category);
-
-    // eksekusi query untuk menyimpan ke database
-    $saved = $stmt->execute();
-
-    if($saved){
-        header('Location: '. BASE_URL_ADMIN . 'pages/categories/?page=1');
-    }
-    else{
-        echo "Edit Failed";
-    }
-
-}
-
 // HTML Start here
 
 include "../../includes/header.php";
@@ -66,7 +42,7 @@ include "../../includes/sidebar.php";
               </div>
             </div>
             <div class="card-body">
-              <form action="" method="POST">
+              <form action="<?= BASE_URL_ADMIN ?>pages/categories/action.php" method="POST">
                 <div class="form-group">
                     <label for="category">Category</label>
                     <input type="text" class="form-control" id="category" name="category">
