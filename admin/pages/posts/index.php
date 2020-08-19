@@ -50,7 +50,7 @@ else{
   
   $stmt->execute();
   
-  // menghitung semua data
+  // menghitung semua data untuk pagination
   
   $sql2 = "SELECT * FROM posts";
   
@@ -59,6 +59,10 @@ else{
   $total = $stmt2->rowCount();
   
   $total_page = ceil($total/$halaman);
+
+  $total_number = 3;
+  $start_number = ($page > $total_number) ? $page - $total_number : 1;
+  $end_number = ($page < ($total_page - $total_number)) ? $page + $total_number : $total_page;
   
   $count = 1;
 }
@@ -175,17 +179,103 @@ include "../../includes/sidebar.php";
             <a href="<?= BASE_URL_ADMIN.'pages/posts/post_create.php' ?>"" class="btn btn-primary">Add new</a>
           </div>
           <ul class="pagination">
-              <?php for($i=1; $i <= $total_page; $i++){ ?>
-                <?php if(isset($_GET['search'])): ?>
-                  <li class="page-item">
-                      <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $i.'&search='.$_GET['search'] ?>"><?= $i ?></a>
-                  </li>
-                <?php else: ?>
-                  <li class="page-item">
-                      <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $i ?>"><?= $i ?></a>
-                  </li>
-                <?php endif; ?>
-              <?php } ?>
+            <!-- search-pagination (First and Prev)-->
+            <?php if(isset($_GET['search'])): ?>
+              <?php  if($page==1): ?>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">First</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">$laquo;</a>
+                </li>
+              <?php
+                else:
+                  $prev = ($page > 1) ? $page - 1: 1;
+              ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=1&search=<?=$_GET['search'] ?>">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $prev.'&search='.$_GET['search'] ?>">$laquo;</a>
+                </li>
+              <?php endif; ?>
+            <!-- non-search-pagination -->
+            <?php else: ?>
+              <?php  if($page==1): ?>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">First</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">&laquo;</a>
+                </li>
+              <?php
+                else:
+                  $prev = ($page > 1) ? $page - 1: 1;
+              ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $prev ?>">&laquo;</a>
+                </li>
+              <?php endif; ?>
+            <?php endif;?>
+
+            <!-- number-pagination -->
+            <?php for($i=$start_number; $i <= $end_number; $i++){ $link_active = ($page == $i)? 'active' : '';?>
+              <?php if(isset($_GET['search'])): ?>
+                <li class="page-item <?= $link_active ?>">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $i.'&search='.$_GET['search'] ?>"><?= $i ?></a>
+                </li>
+              <?php else: ?>
+                <li class="page-item <?= $link_active ?>">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $i ?>"><?= $i ?></a>
+                </li>
+              <?php endif; ?>
+            <?php } ?>
+            
+            <!-- search-pagination (Last and Next)-->
+            <?php if(isset($_GET['search'])): ?>
+              <?php  if($page==$total_page): ?>
+                <li class="page-item disabled">
+                  <a class="page-link" href="">$raquo;</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">Last</a>
+                </li>
+              <?php
+                else:
+                  $next = ($page < $total_page) ? $page + 1: $total_page;
+              ?>
+                <li class="page-item">
+                  <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $next.'&search='.$_GET['search'] ?>">$raquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $total_page.'&search='.$_GET['search'] ?>">Last</a>
+                </li>
+              <?php endif; ?>
+            <!-- non-search-pagination -->
+            <?php else: ?>
+              <?php  if($page==$total_page): ?>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">&laquo;</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="">Last</a>
+                </li>
+              <?php
+                else:
+                  $next = ($page < $total_page) ? $page + 1: $total_page;
+              ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $next ?>">&raquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="<?= BASE_URL_ADMIN ?>pages/posts/?page=<?= $total_page ?>">Last</a>
+                </li>
+              <?php endif; ?>
+            <?php endif;?>
+
           </ul>
       </nav>
       <!-- /.card -->
