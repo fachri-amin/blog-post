@@ -35,27 +35,28 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="<?= BASE_URL_ADMIN ?>pages/users/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-users nav-icon"></i>
                   <p>Users</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="<?= BASE_URL_ADMIN ?>pages/posts/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-newspaper nav-icon"></i>
                   <p>Posts</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="<?= BASE_URL_ADMIN ?>pages/categories/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-sitemap nav-icon"></i>
                   <p>Categories</p>
                 </a>
               </li>
+          </li>
             </ul>
           </li>
           <li class="nav-item">
             <a onClick="javascript: return confirm('Please confirm to Logout');" href="<?= BASE_URL_ADMIN ?>pages/users/logout.php" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
+              <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
               <p class="text">Log Out</p>
             </a>
           </li>

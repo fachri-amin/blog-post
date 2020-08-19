@@ -11,7 +11,7 @@ if(isset($_GET['search'])){
 
   $search = '%'.$search_exact.'%';
 
-  $halaman = 2;
+  $halaman = 30;
   $page = isset($_GET['page'])? (int)$_GET["page"]:1;
   $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
   
@@ -37,7 +37,7 @@ if(isset($_GET['search'])){
   $count = 1;
 }
 else{
-  $halaman = 2;
+  $halaman = 30;
   $page = isset($_GET['page'])? (int)$_GET["page"]:1;
   $mulai = ($page>1) ? ($page * $halaman) - $halaman : 0;
   

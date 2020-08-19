@@ -44,7 +44,7 @@ if(isset($_POST['edit'])){
     // filter data yang diinputkan
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST,"password", FILTER_SANITIZE_STRING);
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
 

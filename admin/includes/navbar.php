@@ -9,10 +9,7 @@
         <a href="<?= BASE_URL_ADMIN ?>" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= BASE_URL_ADMIN ?>pages/users/logout.php" class="nav-link">Logout</a>
+        <a onClick="javascript: return confirm('Please confirm deletion');" href="<?= BASE_URL_ADMIN ?>pages/users/logout.php" class="nav-link">Logout</a>
       </li>
     </ul>
 

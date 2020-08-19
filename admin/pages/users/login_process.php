@@ -26,6 +26,7 @@ if(isset($_POST['login'])){
             // buat Session
             session_start();
             $_SESSION["username"] = $user['username'];
+            $_SESSION["user_id"] = $user['user_id'];
             // login sukses, alihkan ke halaman timeline
             header("Location:".BASE_URL);
         }
